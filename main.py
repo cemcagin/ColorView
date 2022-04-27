@@ -16,7 +16,9 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 gray = (128, 128, 128)
-
+dark_red = (128,0,0)
+dark_green = (0,128,0)
+dark_blue = (0,0,128)
 X = 1280
 Y = 720
 running = True
@@ -52,6 +54,8 @@ reset_rect = resettext.get_rect(center=(125,45))
 
 def refresh():
     screen.blit(background,(0,0))
+    picture = pygame.image.load("porcelaincat.jpg")
+    picture = pygame.transform.scale(picture, (720, 480))
     pygame.draw.rect(screen, red, redbutton)
     pygame.draw.rect(screen, green, greenbutton)
     pygame.draw.rect(screen, blue, bluebutton)
@@ -65,17 +69,28 @@ def refresh():
     screen.blit(resettext, reset_rect)
     pygame.display.flip()
 
-def modify():
-    picture=image.imread('porcelaincat.jpg')
-    for row in picture:
+def modify(color):
+    changed=image.imread('porcelaincat.jpgg')
+    for row in changed:
         for pixel in row:
-            if pixel[0] <= pixel[1] or pixel[0] <= pixel[2]:
-                pixel[0] = pixel[1] = pixel[2] = 255
-    picture = Image.fromarray(picture, 'RGB')
+            if color == "color_red":
+                if pixel[0] <= pixel[1] or pixel[0] <= pixel[2]:
+                    pixel[0] = pixel[1] = pixel[2] = 255
+            if color == "color_green":
+                if pixel[1] <= pixel[0] or pixel [1] <= pixel[2]:
+                    pixel[0] = pixel[1] = pixel[2] = 255
+            if color == "color_blue":
+                if pixel[2] <= pixel[0] or pixel [2] <= pixel[1]:
+                    pixel[0] = pixel[1] = pixel[2] = 255
+    changed = Image.fromarray(changed, 'RGB')
+    changed.save('changed.png')
+    picture = pygame.image.load("changed.png")
+    picture = pygame.transform.scale(picture, (720, 480))
     screen.blit(picture,(X_photo,Y_photo))
 
-refresh()
 
+
+refresh()
 
 while running:
     pygame.init()
@@ -90,14 +105,15 @@ while running:
             text = titlefont.render("Red",False,red)
             caption_rect = text.get_rect(center=(X/2,70))
             screen.blit(text,caption_rect)
-            modify()
+            modify('color_red')
             pygame.display.flip()
     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-        if greenbutton.collidepoint(pygame.mouse.get_pos()):
+        if greenbutton.collidepoint(pygame.mouse.get_pos()): 
             refresh()
             text = titlefont.render("Green",False,green)
             caption_rect = text.get_rect(center=(X/2,70))
             screen.blit(text,caption_rect)
+            modify('color_green')
             pygame.display.flip()
     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         if bluebutton.collidepoint(pygame.mouse.get_pos()):
@@ -105,38 +121,9 @@ while running:
             text = titlefont.render("Blue",False,blue)
             caption_rect = text.get_rect(center=(X/2,70))
             screen.blit(text,caption_rect)
+            modify('color_blue')
             pygame.display.flip()
     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         if resetbutton.collidepoint(pygame.mouse.get_pos()):
             refresh()
     pygame.display.flip()
-
-
-
-
-
-#----------COPY CODE----------#
-
-#from re import X
-#import matplotlib.image as image
-#from PIL import Image
-#import numpy as np
-#
-#img=image.imread('porcelaincat.jpg')
-#print('The Shape of the image is:',img.shape)
-#print('The image as array is:')
-#print(img)
-#
-#from PIL import Image
-#import numpy as np
-#
-#for row in img:
-#  for pixel in row:
-#     if pixel[0] <= pixel[1] or pixel[0] <= pixel[2]:
-#       pixel[0] = pixel[1] = pixel[2] = 255
-#
-#
-#img = Image.fromarray(img, 'RGB')
-#
-#img.save('my.png')
-#img.show()
