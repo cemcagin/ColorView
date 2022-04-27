@@ -25,7 +25,7 @@ running = True
 X_photo = 280
 Y_photo = 120
 
-background = pygame.image.load("background.png")
+
 picture = pygame.image.load("porcelaincat.jpg")
 picture = pygame.transform.scale(picture, (720, 480))
 
@@ -53,7 +53,7 @@ resettext = titlefont.render("RESET",False,black)
 reset_rect = resettext.get_rect(center=(125,45))
 
 def refresh():
-    screen.blit(background,(0,0))
+    screen.fill((white))
     picture = pygame.image.load("porcelaincat.jpg")
     picture = pygame.transform.scale(picture, (720, 480))
     pygame.draw.rect(screen, red, redbutton)
@@ -70,7 +70,7 @@ def refresh():
     pygame.display.flip()
 
 def modify(color):
-    changed=image.imread('porcelaincat.jpgg')
+    changed=image.imread('porcelaincat.jpg')
     for row in changed:
         for pixel in row:
             if color == "color_red":
